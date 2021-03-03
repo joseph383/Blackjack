@@ -1,1 +1,1 @@
-# Blackjack
+Play the dealer in this one player game of Blackjack!
