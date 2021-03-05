@@ -74,9 +74,9 @@ public class Card {
 	
 		// control how many decks
 	for (int deckIndex = 1; deckIndex <= numDecks; deckIndex++) {
-		// each suit in a single deck
+		// each face in a single deck
 		for (int faceIndex = 0; faceIndex < 13; faceIndex++) {	
-			// each face in single deck
+			// each suit in single deck
 			for (int suitIndex = 0; suitIndex < 4; suitIndex++) {
 				cards[cardIndex] = new Card(Suit.values()[suitIndex], Face.values()[faceIndex]);
 				cards[cardIndex].setValue();
@@ -100,6 +100,7 @@ public class Card {
 			
 			int randomIndex = (int) (Math.random() * (52 * numDecks));
 			
+			// If this card has not been shuffled, shuffle it and update the index
 			if (placeHolder[randomIndex] == 0) {
 				placeHolder[randomIndex] = -1;
 				

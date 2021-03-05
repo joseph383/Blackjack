@@ -29,10 +29,16 @@ public class Player extends CardPlayer {
 		handIndex = 0;
 	}
 	
+	/*
+	Move to next player hand in the event of split
+	*/
 	public void advanceHand() {
 		handIndex++;
 	}
 	
+	/*
+	Move to previous player hand in the event of split
+	*/
 	public void prevHand() {
 		handIndex--;
 	}

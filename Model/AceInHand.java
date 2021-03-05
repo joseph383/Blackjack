@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * This class handles the value of one or more Ace cards that may be in a players hand
+ */
 public class AceInHand {
 	
 	private int count;
@@ -12,6 +15,9 @@ public class AceInHand {
 		indexVal = new int [21];
 	}
 	
+	/*
+	Reset properties of this class when individual game is over
+	*/
 	public void resetAceObj() {
 		for (int i = 0; i < count; i++) {
 			indexVal[i] = 0;
@@ -23,6 +29,9 @@ public class AceInHand {
 		return count;
 	}
 	
+	/*
+	Soft Ace is when Ace is valued at 11
+	*/
 	public boolean softAce() {
 		return count != valOne;
 	}

@@ -5,18 +5,13 @@ import model.*;
 import java.util.Random;
 import java.util.Scanner;
 
-/*
- * Move 4 player choice methods to player class, dealerRules to dealer class
- * maybe create intermediate class = gameConstructs to hold deck of cards, split, and cardIndex
- * Have folder to store images (cards, table background)
- * Learn animations in app development
- * keep stats = (Serialize if app allows) = longest win streak & losing streak, highest total on exit
- * allow player to enable card counting and basic strategy and view basic strategy outside of game = standalone
- */
 public class Controller {
 	
+	// Move to constants class
 	private static final int DEFAULT_NUM_DECKS = 6;
+	// Total playing card index
 	private static int index = 0;
+	// Data structure to hold all playing cards
 	private static Card [] playingCards;
 	private static boolean split = false;
 	
