@@ -3,9 +3,9 @@ package model;
 public class Dealer extends CardPlayer {
 
 	private Hand hand;
-	private int hitSoft17;
+	private boolean hitSoft17;
 	
-	public Dealer(String name, int hitSoft17) {
+	public Dealer(String name, boolean hitSoft17) {
 		super(name);
 		hand = new Hand();
 		this.hitSoft17 = hitSoft17;
@@ -15,13 +15,13 @@ public class Dealer extends CardPlayer {
 		return hand;
 	}
 	
-	public int getDealerRule() {
+	public boolean getDealerRule() {
 		return hitSoft17;
 	}
 	
 	public String dealerRuleString() {
 		
-		if (hitSoft17 == 0) {
+		if (hitSoft17) {
 			return "Dealer stays on soft 17";
 		}
 		return "Dealer hits on Soft 17";

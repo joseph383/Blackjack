@@ -134,7 +134,7 @@ public class Controller {
 		dealer.getHand().printHandDetails();
 		
 		while (dealer.getHand().getHandValue() < 17 || (dealer.getHand().getHandValue() == 17 && 
-				dealer.getHand().getAceObj().softAce() && dealer.getDealerRule() == 1)) {
+				dealer.getHand().getAceObj().softAce() && dealer.getDealerRule())) {
 			
 			dealer.getHand().addCardToHand(playingCards[index]);
 			System.out.println("New card is: " + playingCards[index].toString());
@@ -274,8 +274,8 @@ public class Controller {
 		Card calling = new Card(null, null);
 		Controller ctl = new Controller();
 		
-		// Generate random number for dealer rules: 0 is stay and 1 is hit on soft 17
-		int hitSoft17 = new Random().nextInt(2);
+		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
+		boolean hitSoft17 = new Random().nextBoolean();
 		
 		playingCards = new Card[DEFAULT_NUM_DECKS * 52];
 		playingCards = calling.shuffleCards(calling.createCardArray(DEFAULT_NUM_DECKS), DEFAULT_NUM_DECKS);
