@@ -91,7 +91,7 @@ public class Game {
 			
 		}
 		
-		public String splitErrorMsg(Player p1, boolean split) {
+		public String splitErrorMsg(Player p1) {
 			
 			String msg = "";
 			

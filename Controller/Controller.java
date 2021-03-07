@@ -129,7 +129,7 @@ public class Controller {
 	
 	public void playerSplit(Player p1) {
 		
-		String err = game.splitErrorMsg(p1, game.getSplit());
+		String err = game.splitErrorMsg(p1);
 		
 		if(err.length() != 0) {
 			System.out.println(err);
