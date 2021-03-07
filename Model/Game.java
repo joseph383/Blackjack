@@ -53,5 +53,40 @@ public class Game {
 			return randomArray;
 			
 		}
+		
+		public String splitErrorMsg(Player p1, boolean split) {
+			
+			String msg = "";
+			
+			if (split) {
+				msg += ("You already split on this hand.\n");
+			}
+			if (!p1.validBet(p1.getHand().getBet() * 2)) {
+				msg += ("You do not have enough money.\n");
+			}
+			if (p1.getHand().getCards().get(0).getValue() != p1.getHand().getCards().get(1).getValue()) {
+				msg += ("You do not have a pair.\n");
+			}
+			if (p1.getHand().getCards().size() != 2) {
+				msg += ("You can only split on initial two cards.");
+			}
+			
+			return msg;
+		}
+		
+		public String doubleErrorMsg(Player p1) {
+			
+			String msg = "";
+			
+			if (!p1.validBet(p1.getHand().getBet() * 2)) {
+				msg += ("Player does not have enough money to make this move.\n");
+			}
+			if (p1.getHand().getCards().size() > 2) {
+				msg += ("You can only double on initial hand.");
+			}
+					
+			return msg;
+			
+		}
 
 }

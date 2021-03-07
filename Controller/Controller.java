@@ -14,6 +14,7 @@ public class Controller {
 	// Data structure to hold all playing cards
 	private static Card [] playingCards;
 	private static boolean split = false;
+	static Game game = new Game();
 	
 	public void dealCards(Player p1, Dealer dealer) {
 		
@@ -72,41 +73,6 @@ public class Controller {
 		else {
 			System.out.println("Tie");
 		}
-		
-	}
-	
-	public String splitErrorMsg(Player p1) {
-		
-		String msg = "";
-		
-		if (split) {
-			msg += ("You already split on this hand.\n");
-		}
-		if (!p1.validBet(p1.getHand().getBet() * 2)) {
-			msg += ("You do not have enough money.\n");
-		}
-		if (p1.getHand().getCards().get(0).getValue() != p1.getHand().getCards().get(1).getValue()) {
-			msg += ("You do not have a pair.\n");
-		}
-		if (p1.getHand().getCards().size() != 2) {
-			msg += ("You can only split on initial two cards.");
-		}
-		
-		return msg;
-	}
-	
-	public String doubleErrorMsg(Player p1) {
-		
-		String msg = "";
-		
-		if (!p1.validBet(p1.getHand().getBet() * 2)) {
-			msg += ("Player does not have enough money to make this move.\n");
-		}
-		if (p1.getHand().getCards().size() > 2) {
-			msg += ("You can only double on initial hand.");
-		}
-				
-		return msg;
 		
 	}
 	
@@ -178,7 +144,7 @@ public class Controller {
 	
 	public boolean playerDouble(Player p1) {
 		
-		String err = doubleErrorMsg(p1);
+		String err = game.doubleErrorMsg(p1);
 		
 		if(err.length() != 0) {
 			System.out.println(err);
@@ -207,7 +173,7 @@ public class Controller {
 	
 	public void playerSplit(Player p1) {
 		
-		String err = splitErrorMsg(p1);
+		String err = game.splitErrorMsg(p1, split);
 		
 		if(err.length() != 0) {
 			System.out.println(err);
@@ -255,7 +221,6 @@ public class Controller {
 
 		Scanner sc = new Scanner(System.in);
 		Controller ctl = new Controller();
-		Game game = new Game();
 		
 		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
 		boolean hitSoft17 = new Random().nextBoolean();
