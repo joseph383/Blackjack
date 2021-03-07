@@ -39,43 +39,6 @@ public class Controller {
 
 	}
 	
-	public void determineWinner(Player p1, Dealer dealer) {
-		
-		if (dealer.getHand().isBlackJack() && !p1.getHand().isBlackJack()) {
-			dealer.getHand().printHandDetails();
-			System.out.println(dealer.getName() + " has Blackjack, You lose $" + p1.getHand().getBet() + "\n");
-			p1.loseGame(p1.getHand().getBet());
-		}
-		else if (p1.getHand().isBlackJack() && !dealer.getHand().isBlackJack()) {
-			System.out.println(p1.getName() + " have Blackjack and win $" + (p1.getHand().getBet() + p1.getHand().getBet() / 2) + "\n");
-			p1.winGame(true, p1.getHand().getBet());
-		}
-		else if (p1.getHand().isBust() && dealer.getHand().isBust()) {
-			System.out.println(dealer.getName() + " Bust, but " + p1.getName() + " Still lose $" + p1.getHand().getBet() + "\n");
-			p1.loseGame(p1.getHand().getBet());
-		}
-		else if (!p1.getHand().isBust() && dealer.getHand().isBust()) {
-			System.out.println(p1.getName() + " win $" + p1.getHand().getBet() + "\n");
-			p1.winGame(false, p1.getHand().getBet());
-		}
-		else if (p1.getHand().isBust() && !dealer.getHand().isBust()) {
-			System.out.println(p1.getName() + " lose $" + p1.getHand().getBet() + "\n");
-			p1.loseGame(p1.getHand().getBet());
-		}
-		else if (p1.getHand().getHandValue() > dealer.getHand().getHandValue()) {
-			System.out.println(p1.getName() + " win $" + p1.getHand().getBet() + "\n");
-			p1.winGame(false, p1.getHand().getBet());
-		}
-		else if (p1.getHand().getHandValue() < dealer.getHand().getHandValue()) {
-			System.out.println(p1.getName() + " lose $" + p1.getHand().getBet() + "\n");
-			p1.loseGame(p1.getHand().getBet());
-		}
-		else {
-			System.out.println("Tie");
-		}
-		
-	}
-	
 	public void retreiveBet(Player p1, Scanner sc) {
 		
 		int bet;
@@ -100,13 +63,13 @@ public class Controller {
 		
 		System.out.println("First split hand:");
 		p1.getHand().printHandDetails();
-		determineWinner(p1, dealer);
+		game.determineWinner(p1, dealer);
 
 		p1.advanceHand();
 		
 		System.out.println("Second split hand:");
 		p1.getHand().printHandDetails();
-		determineWinner(p1, dealer);
+		game.determineWinner(p1, dealer);
 		split = false;
 		
 	}
@@ -301,7 +264,7 @@ public class Controller {
 			ctl.handleSplitHand(p1, dealer);
 		}
 		else {
-			ctl.determineWinner(p1, dealer);
+			game.determineWinner(p1, dealer);
 		}
 		
 		p1.getHand().resetHand();
