@@ -2,8 +2,45 @@ package model;
 
 import model.Card.Face;
 import model.Card.Suit;
+import model.Constants;
 
 public class Game {
+
+    // Total playing card index
+	private int index;
+	// Data structure to hold all playing cards
+	private Card [] playingCards;
+    private boolean split;
+    
+    public Game() {
+        index = 0;
+        playingCards = new Card[Constants.DEFAULT_NUM_DECKS * 52];
+        split = false;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public Card[] getPlayingCards() {
+        return playingCards;
+    }
+    
+    public void setPlayingCards(Card[] playingCards) {
+        this.playingCards = playingCards;
+    }
+
+    public boolean getSplit() {
+        return split;
+    }
+
+    public void setSplit(boolean split) {
+        this.split = split;
+    }
 	
 	// Create array of cards sequentially (A-K: Spades, Hearts, Clubs, Diamonds)
 		public Card[] createCardArray(int numDecks) {

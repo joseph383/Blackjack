@@ -7,35 +7,28 @@ import java.util.Scanner;
 
 public class Controller {
 	
-	// Move to constants class
-	private static final int DEFAULT_NUM_DECKS = 6;
-	// Total playing card index
-	private static int index = 0;
-	// Data structure to hold all playing cards
-	private static Card [] playingCards;
-	private static boolean split = false;
 	static Game game = new Game();
 	
 	public void dealCards(Player p1, Dealer dealer) {
 		
-		p1.getHand().addCardToHand(playingCards[index]);
-		index++;
-		p1.getHand().addCardToHand(playingCards[index]);
-		index++;
+		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		game.setIndex(game.getIndex()+1);
+		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		game.setIndex(game.getIndex()+1);
 		
 		System.out.println("Your hand:");
 		p1.getHand().printHandDetails();
 		
 		System.out.println("_________________________________________");
 
-		dealer.getHand().addCardToHand(playingCards[index]);
-		index++;
+		dealer.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		game.setIndex(game.getIndex()+1);
 		
 		System.out.println("Dealer hand:");
 		dealer.getHand().printHandDetails();
 		
-		dealer.getHand().addCardToHand(playingCards[index]);
-		index++;
+		dealer.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		game.setIndex(game.getIndex()+1);
 
 	}
 	
@@ -70,19 +63,19 @@ public class Controller {
 		System.out.println("Second split hand:");
 		p1.getHand().printHandDetails();
 		game.determineWinner(p1, dealer);
-		split = false;
+		game.setSplit(false);
 		
 	}
 	
 	public void playerHit(Player p1) {
 		
-		p1.getHand().addCardToHand(playingCards[index]);
-		System.out.println("New card is: " + playingCards[index].toString());
+		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
 		
-		index++;
+		game.setIndex(game.getIndex()+1);
 		p1.getHand().printHandDetails();
 		
-		if (p1.getHand().isBust() && p1.getHandIndex() == 1 && split) {
+		if (p1.getHand().isBust() && p1.getHandIndex() == 1 && game.getSplit()) {
 			p1.advanceHand();
 			System.out.println("You Bust\nSecond split hand:");
 			p1.getHand().printHandDetails();
@@ -94,7 +87,7 @@ public class Controller {
 		
 		p1.getHand().printHandDetails();
 		
-		if (split && p1.getHandIndex() == 1) {
+		if (game.getSplit() && p1.getHandIndex() == 1) {
 			p1.advanceHand();
 			System.out.println("Second split hand:");
 			p1.getHand().printHandDetails();
@@ -116,14 +109,14 @@ public class Controller {
 		
 		p1.getHand().placeBet(p1.getHand().getBet() * 2);
 	
-		p1.getHand().addCardToHand(playingCards[index]);
-		System.out.println("New card is: " + playingCards[index].toString());
+		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
 		
-		index++;
+		game.setIndex(game.getIndex()+1);
 		
 		p1.getHand().printHandDetails();
 		
-		if (split && p1.getHandIndex() == 1) {
+		if (game.getSplit() && p1.getHandIndex() == 1) {
 			p1.advanceHand();
 			System.out.println("Second split hand:");
 			p1.getHand().printHandDetails();
@@ -136,7 +129,7 @@ public class Controller {
 	
 	public void playerSplit(Player p1) {
 		
-		String err = game.splitErrorMsg(p1, split);
+		String err = game.splitErrorMsg(p1, game.getSplit());
 		
 		if(err.length() != 0) {
 			System.out.println(err);
@@ -150,7 +143,7 @@ public class Controller {
 			p1.advanceHand();
 			p1.getHand().placeBet(firstHandBet);
 			
-			split = true;
+			game.setSplit(true);
 			
 			p1.getHand().setSplit();
 			p1.prevHand();
@@ -160,8 +153,8 @@ public class Controller {
 			Card firstTemp = p1.getHand().getCards().get(0);
 			p1.advanceHand();
 			p1.getHand().addCardToHand(firstTemp);
-			p1.getHand().addCardToHand(playingCards[index]);
-			index++;
+			p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+			game.setIndex(game.getIndex()+1);
 			System.out.println("First split hand:");
 			p1.getHand().printHandDetails();
 			
@@ -172,8 +165,8 @@ public class Controller {
 			p1.advanceHand();
 			
 			p1.getHand().addCardToHand(secondTemp);
-			p1.getHand().addCardToHand(playingCards[index]);
-			index++;
+			p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+			game.setIndex(game.getIndex()+1);
 			System.out.println("Second split hand:");
 			p1.getHand().printHandDetails();
 			p1.prevHand();
@@ -188,8 +181,7 @@ public class Controller {
 		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
 		boolean hitSoft17 = new Random().nextBoolean();
 		
-		playingCards = new Card[DEFAULT_NUM_DECKS * 52];
-		playingCards = game.shuffleCards(game.createCardArray(DEFAULT_NUM_DECKS), DEFAULT_NUM_DECKS);
+		game.setPlayingCards(game.shuffleCards(game.createCardArray(Constants.DEFAULT_NUM_DECKS), Constants.DEFAULT_NUM_DECKS));
 		
 		Dealer dealer = new Dealer("Dealer", hitSoft17);
 		Player p1 = new Player("You");
@@ -197,9 +189,9 @@ public class Controller {
 		//deal cards
 		while (p1.getMoneyTotal() > 0) {	
 		
-		if (index > 260) {
-			playingCards = game.shuffleCards(playingCards, DEFAULT_NUM_DECKS);
-			index = 0;
+		if (game.getIndex() > 260) {
+			game.setPlayingCards(game.shuffleCards(game.getPlayingCards(), Constants.DEFAULT_NUM_DECKS));
+			game.setIndex(0);
 			System.out.println("RESHUFFLING");
 		}
 			
@@ -257,10 +249,10 @@ public class Controller {
 			System.out.println("You Bust\n");
 		}
 
-		dealer.dealerPlay(dealer, playingCards, index);
+		dealer.dealerPlay(dealer, game.getPlayingCards(), game.getIndex());
 	}
 		
-		if (split) {
+		if (game.getSplit()) {
 			ctl.handleSplitHand(p1, dealer);
 		}
 		else {
