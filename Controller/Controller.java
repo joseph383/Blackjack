@@ -271,14 +271,14 @@ public class Controller {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		Card calling = new Card(null, null);
 		Controller ctl = new Controller();
+		Game game = new Game();
 		
 		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
 		boolean hitSoft17 = new Random().nextBoolean();
 		
 		playingCards = new Card[DEFAULT_NUM_DECKS * 52];
-		playingCards = calling.shuffleCards(calling.createCardArray(DEFAULT_NUM_DECKS), DEFAULT_NUM_DECKS);
+		playingCards = game.shuffleCards(game.createCardArray(DEFAULT_NUM_DECKS), DEFAULT_NUM_DECKS);
 		
 		Dealer dealer = new Dealer("Dealer", hitSoft17);
 		Player p1 = new Player("You");
@@ -287,7 +287,7 @@ public class Controller {
 		while (p1.getMoneyTotal() > 0) {	
 		
 		if (index > 260) {
-			playingCards = calling.shuffleCards(playingCards, DEFAULT_NUM_DECKS);
+			playingCards = game.shuffleCards(playingCards, DEFAULT_NUM_DECKS);
 			index = 0;
 			System.out.println("RESHUFFLING");
 		}
