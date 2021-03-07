@@ -191,13 +191,13 @@ public class Controller {
 		Player p1 = new Player("You");
 		
 		//deal cards
-		while (p1.getMoneyTotal() > 0) {	
+		while (p1.getMoneyTotal() > 0) {
 		
-		if (game.getIndex() > 260) {
-			game.setPlayingCards(game.shuffleCards(game.getPlayingCards(), Constants.DEFAULT_NUM_DECKS));
-			game.setIndex(0);
-			System.out.println("RESHUFFLING");
-		}
+			if (game.getIndex() > 260) {
+				game.setPlayingCards(game.shuffleCards(game.getPlayingCards(), Constants.DEFAULT_NUM_DECKS));
+				game.setIndex(0);
+				System.out.println("RESHUFFLING");
+			}
 			
 		View.startupGame();
 		int choice;
@@ -213,39 +213,39 @@ public class Controller {
 		
 		do {
 			
-		System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
-		choice = sc.nextInt();
-		
-		if (choice == 1)	{
+			System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
+			choice = sc.nextInt();
 			
-			ctl.playerHit(p1);
-			
-		}
-		else if (choice == 0) {
-			
-			if (ctl.playerStay(p1)) {
-				continue;
+			if (choice == 1)	{
+				
+				ctl.playerHit(p1);
+				
 			}
-			
-			break;
-		}
-		else if (choice == 2) {
-			
-			if (ctl.playerDouble(p1)) {
-				continue;
+			else if (choice == 0) {
+				
+				if (ctl.playerStay(p1)) {
+					continue;
+				}
+				
+				break;
 			}
-			
-			break;
-			
-		}
-		else if (choice == 3) {
-			
-			ctl.playerSplit(p1);
-			
-		}
-		else {
-			System.out.println(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
-		}
+			else if (choice == 2) {
+				
+				if (ctl.playerDouble(p1)) {
+					continue;
+				}
+				
+				break;
+				
+			}
+			else if (choice == 3) {
+				
+				ctl.playerSplit(p1);
+				
+			}
+			else {
+				System.out.println(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
+			}
 		
 		} while (!p1.getHand().isBust() && true);
 		
