@@ -6,20 +6,19 @@ public class Hand {
 
 	private int handValue;
 	private ArrayList<Card> cards;
-	private int numCards;
 	private AceInHand aceObj;
 	private boolean isSplit;
 	private int bet;
 	
 	public Hand() {
 		cards = new ArrayList<Card>();
-		handValue = numCards = 0;
+		handValue = 0;
 		aceObj = new AceInHand();
 		isSplit = false;
 	}
 	
 	public void resetHand() {
-		handValue = numCards = bet = 0;
+		handValue = bet = 0;
 		cards.clear();
 		aceObj.resetAceObj();
 		isSplit = false;
@@ -40,12 +39,8 @@ public class Hand {
 		return cards;
 	}
 	
-	public int getNumCards() {
-		return numCards;
-	}
-	
 	public boolean isBlackJack() {
-		return handValue == 21 && numCards == 2 && !isSplit;
+		return handValue == 21 && cards.size() == 2 && !isSplit;
 	}
 	
 	public boolean isBust() {
@@ -76,7 +71,6 @@ public class Hand {
 	public void addCardToHand(Card c) {
 		
 		cards.add(c);
-		numCards++;
 		
 		// no ace in, hand less than 11, and adding ace at default 11 value
 		if (!containAce() && c.getValue() == 11 && handValue <= 10) {

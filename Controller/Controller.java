@@ -88,7 +88,7 @@ public class Controller {
 		if (p1.getHand().getCards().get(0).getValue() != p1.getHand().getCards().get(1).getValue()) {
 			msg += ("You do not have a pair.\n");
 		}
-		if (p1.getHand().getNumCards() != 2) {
+		if (p1.getHand().getCards().size() != 2) {
 			msg += ("You can only split on initial two cards.");
 		}
 		
@@ -102,7 +102,7 @@ public class Controller {
 		if (!p1.validBet(p1.getHand().getBet() * 2)) {
 			msg += ("Player does not have enough money to make this move.\n");
 		}
-		if (p1.getHand().getNumCards() > 2) {
+		if (p1.getHand().getCards().size() > 2) {
 			msg += ("You can only double on initial hand.");
 		}
 				
