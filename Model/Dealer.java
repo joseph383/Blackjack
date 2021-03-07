@@ -26,6 +26,23 @@ public class Dealer extends CardPlayer {
 		}
 		return "Dealer hits on Soft 17";
 	}
+	
+	public void dealerPlay(Dealer dealer, Card [] playingCards, int index) {
+		
+		System.out.println("Dealer hand:");
+		dealer.getHand().printHandDetails();
+		
+		while (dealer.getHand().getHandValue() < 17 || (dealer.getHand().getHandValue() == 17 && 
+				dealer.getHand().getAceObj().softAce() && dealer.getDealerRule())) {
+			
+			dealer.getHand().addCardToHand(playingCards[index]);
+			System.out.println("New card is: " + playingCards[index].toString());
+			index++;
+			
+			System.out.println("Dealer hand:");
+			dealer.getHand().printHandDetails();
+		}
+	}
 
 
 }

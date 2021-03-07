@@ -128,23 +128,6 @@ public class Controller {
 		
 	}
 	
-	public void dealerPlay(Dealer dealer) {
-		
-		System.out.println("Dealer hand:");
-		dealer.getHand().printHandDetails();
-		
-		while (dealer.getHand().getHandValue() < 17 || (dealer.getHand().getHandValue() == 17 && 
-				dealer.getHand().getAceObj().softAce() && dealer.getDealerRule())) {
-			
-			dealer.getHand().addCardToHand(playingCards[index]);
-			System.out.println("New card is: " + playingCards[index].toString());
-			index++;
-			
-			System.out.println("Dealer hand:");
-			dealer.getHand().printHandDetails();
-		}
-	}
-	
 	public void handleSplitHand(Player p1, Dealer dealer) {
 		
 		p1.prevHand();
@@ -346,7 +329,7 @@ public class Controller {
 			System.out.println("You Bust\n");
 		}
 
-		ctl.dealerPlay(dealer);
+		dealer.dealerPlay(dealer, playingCards, index);
 	}
 		
 		if (split) {
