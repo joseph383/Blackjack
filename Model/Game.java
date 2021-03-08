@@ -162,5 +162,28 @@ public class Game {
 			}
 			
 		}
+		
+		public void dealCards(Player p1, Dealer dealer) {
+			
+			p1.getHand().addCardToHand(getPlayingCards()[getIndex()]);
+			setIndex(getIndex()+1);
+			p1.getHand().addCardToHand(getPlayingCards()[getIndex()]);
+			setIndex(getIndex()+1);
+			
+			System.out.println("Your hand:");
+			p1.getHand().printHandDetails();
+			
+			System.out.println("_________________________________________");
+
+			dealer.getHand().addCardToHand(getPlayingCards()[getIndex()]);
+			setIndex(getIndex()+1);
+			
+			System.out.println("Dealer hand:");
+			dealer.getHand().printHandDetails();
+			
+			dealer.getHand().addCardToHand(getPlayingCards()[getIndex()]);
+			setIndex(getIndex()+1);
+
+		}
 
 }

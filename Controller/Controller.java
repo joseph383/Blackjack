@@ -12,29 +12,6 @@ public class Controller {
 	
 	static Game game = new Game();
 	
-	public void dealCards(Player p1, Dealer dealer) {
-		
-		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		game.setIndex(game.getIndex()+1);
-		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		game.setIndex(game.getIndex()+1);
-		
-		System.out.println("Your hand:");
-		p1.getHand().printHandDetails();
-		
-		System.out.println("_________________________________________");
-
-		dealer.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		game.setIndex(game.getIndex()+1);
-		
-		System.out.println("Dealer hand:");
-		dealer.getHand().printHandDetails();
-		
-		dealer.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		game.setIndex(game.getIndex()+1);
-
-	}
-	
 	public void retreiveBet(Player p1, Scanner sc) {
 		
 		int bet;
@@ -70,8 +47,6 @@ public class Controller {
 		
 	}
 	
-	
-	
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
@@ -102,7 +77,7 @@ public class Controller {
 		
 		ctl.retreiveBet(p1, sc);
 		
-		ctl.dealCards(p1, dealer);
+		game.dealCards(p1, dealer);
 		
 	if (!dealer.getHand().isBlackJack()) {
 		
