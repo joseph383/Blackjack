@@ -75,5 +75,111 @@ public class Player extends CardPlayer {
 		moneyTotal -= bet;
 		loses++;
 	}
+	
+	public void playerHit(Game game) {
+		
+		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		
+		game.setIndex(game.getIndex()+1);
+		getHand().printHandDetails();
+		
+		if (getHand().isBust() && getHandIndex() == 1 && game.getSplit()) {
+			advanceHand();
+			System.out.println("You Bust\nSecond split hand:");
+			getHand().printHandDetails();
+		}
+		
+	}
+	
+	public boolean playerStay(Game game) {
+		
+		getHand().printHandDetails();
+		
+		if (game.getSplit() && getHandIndex() == 1) {
+			advanceHand();
+			System.out.println("Second split hand:");
+			getHand().printHandDetails();
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public boolean playerDouble(Game game) {
+		
+		String err = game.doubleErrorMsg(this);
+		
+		if(err.length() != 0) {
+			System.out.println(err);
+			return true;
+		}
+		
+		getHand().placeBet(getHand().getBet() * 2);
+	
+		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		
+		game.setIndex(game.getIndex()+1);
+		
+		getHand().printHandDetails();
+		
+		if (game.getSplit() && getHandIndex() == 1) {
+			advanceHand();
+			System.out.println("Second split hand:");
+			getHand().printHandDetails();
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public void playerSplit(Game game) {
+		
+		String err = game.splitErrorMsg(this);
+		
+		if(err.length() != 0) {
+			System.out.println(err);
+			return;
+		}
+				
+			int firstHandBet = getHand().getBet();
+			advanceHand();
+			getHand().placeBet(firstHandBet);
+			
+			advanceHand();
+			getHand().placeBet(firstHandBet);
+			
+			game.setSplit(true);
+			
+			getHand().setSplit();
+			prevHand();
+			getHand().setSplit();
+			prevHand();
+			
+			Card firstTemp = getHand().getCards().get(0);
+			advanceHand();
+			getHand().addCardToHand(firstTemp);
+			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+			game.setIndex(game.getIndex()+1);
+			System.out.println("First split hand:");
+			getHand().printHandDetails();
+			
+			prevHand();
+			
+			Card secondTemp = getHand().getCards().get(1);
+			advanceHand();
+			advanceHand();
+			
+			getHand().addCardToHand(secondTemp);
+			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
+			game.setIndex(game.getIndex()+1);
+			System.out.println("Second split hand:");
+			getHand().printHandDetails();
+			prevHand();
+		
+	}
 
 }

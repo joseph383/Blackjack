@@ -1,6 +1,5 @@
 package controller;
 import view.View;
-import model.Card;
 import model.Dealer;
 import model.Game;
 import model.Player;
@@ -71,111 +70,7 @@ public class Controller {
 		
 	}
 	
-	public void playerHit(Player p1) {
-		
-		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
-		
-		game.setIndex(game.getIndex()+1);
-		p1.getHand().printHandDetails();
-		
-		if (p1.getHand().isBust() && p1.getHandIndex() == 1 && game.getSplit()) {
-			p1.advanceHand();
-			System.out.println("You Bust\nSecond split hand:");
-			p1.getHand().printHandDetails();
-		}
-		
-	}
 	
-	public boolean playerStay(Player p1) {
-		
-		p1.getHand().printHandDetails();
-		
-		if (game.getSplit() && p1.getHandIndex() == 1) {
-			p1.advanceHand();
-			System.out.println("Second split hand:");
-			p1.getHand().printHandDetails();
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
-	public boolean playerDouble(Player p1) {
-		
-		String err = game.doubleErrorMsg(p1);
-		
-		if(err.length() != 0) {
-			System.out.println(err);
-			return true;
-		}
-		
-		p1.getHand().placeBet(p1.getHand().getBet() * 2);
-	
-		p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
-		
-		game.setIndex(game.getIndex()+1);
-		
-		p1.getHand().printHandDetails();
-		
-		if (game.getSplit() && p1.getHandIndex() == 1) {
-			p1.advanceHand();
-			System.out.println("Second split hand:");
-			p1.getHand().printHandDetails();
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
-	public void playerSplit(Player p1) {
-		
-		String err = game.splitErrorMsg(p1);
-		
-		if(err.length() != 0) {
-			System.out.println(err);
-			return;
-		}
-				
-			int firstHandBet = p1.getHand().getBet();
-			p1.advanceHand();
-			p1.getHand().placeBet(firstHandBet);
-			
-			p1.advanceHand();
-			p1.getHand().placeBet(firstHandBet);
-			
-			game.setSplit(true);
-			
-			p1.getHand().setSplit();
-			p1.prevHand();
-			p1.getHand().setSplit();
-			p1.prevHand();
-			
-			Card firstTemp = p1.getHand().getCards().get(0);
-			p1.advanceHand();
-			p1.getHand().addCardToHand(firstTemp);
-			p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-			game.setIndex(game.getIndex()+1);
-			System.out.println("First split hand:");
-			p1.getHand().printHandDetails();
-			
-			p1.prevHand();
-			
-			Card secondTemp = p1.getHand().getCards().get(1);
-			p1.advanceHand();
-			p1.advanceHand();
-			
-			p1.getHand().addCardToHand(secondTemp);
-			p1.getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-			game.setIndex(game.getIndex()+1);
-			System.out.println("Second split hand:");
-			p1.getHand().printHandDetails();
-			p1.prevHand();
-		
-	}
 	
 	public static void main(String[] args) {
 
@@ -218,12 +113,12 @@ public class Controller {
 			
 			if (choice == 1)	{
 				
-				ctl.playerHit(p1);
+				p1.playerHit(game);
 				
 			}
 			else if (choice == 0) {
 				
-				if (ctl.playerStay(p1)) {
+				if (p1.playerStay(game)) {
 					continue;
 				}
 				
@@ -231,7 +126,7 @@ public class Controller {
 			}
 			else if (choice == 2) {
 				
-				if (ctl.playerDouble(p1)) {
+				if (p1.playerDouble(game)) {
 					continue;
 				}
 				
@@ -240,7 +135,7 @@ public class Controller {
 			}
 			else if (choice == 3) {
 				
-				ctl.playerSplit(p1);
+				p1.playerSplit(game);
 				
 			}
 			else {
