@@ -30,23 +30,6 @@ public class Controller {
 		
 	}
 	
-	public void handleSplitHand(Player p1, Dealer dealer) {
-		
-		p1.prevHand();
-		
-		System.out.println("First split hand:");
-		p1.getHand().printHandDetails();
-		game.determineWinner(p1, dealer);
-
-		p1.advanceHand();
-		
-		System.out.println("Second split hand:");
-		p1.getHand().printHandDetails();
-		game.determineWinner(p1, dealer);
-		game.setSplit(false);
-		
-	}
-	
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
@@ -127,7 +110,7 @@ public class Controller {
 	}
 		
 		if (game.getSplit()) {
-			ctl.handleSplitHand(p1, dealer);
+			game.handleSplitHand(p1, dealer);
 		}
 		else {
 			game.determineWinner(p1, dealer);

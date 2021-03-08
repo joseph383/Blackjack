@@ -185,5 +185,22 @@ public class Game {
 			setIndex(getIndex()+1);
 
 		}
+		
+		public void handleSplitHand(Player p1, Dealer dealer) {
+			
+			p1.prevHand();
+			
+			System.out.println("First split hand:");
+			p1.getHand().printHandDetails();
+			determineWinner(p1, dealer);
+
+			p1.advanceHand();
+			
+			System.out.println("Second split hand:");
+			p1.getHand().printHandDetails();
+			determineWinner(p1, dealer);
+			setSplit(false);
+			
+		}
 
 }
