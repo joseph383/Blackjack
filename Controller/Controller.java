@@ -5,6 +5,7 @@ import model.Game;
 import model.Player;
 import model.Constants;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,28 +13,27 @@ public class Controller {
 	
 	static Game game = new Game();
 	
-	public void retreiveBet(Player p1, Scanner sc) {
+	public static int retreiveBet(Scanner sc) {
 		
-		int bet;
+		int bet = 0;
 		
-		do {
-			
+		try {
 			bet = sc.nextInt();
-			if (!p1.validBet(bet)) {
-				System.out.println("Not a valid bet. Try again.");
-			}
-			else {
-				p1.getHand().placeBet(bet);
-				return;
-			}
-		} while (true);
+			return bet;
+		} catch (InputMismatchException ex) {
+			System.out.println("Not a valid bet. Expected an integer value. Try again.");
+			System.out.println("How much would you like to bet on this round?");
+			sc.next();
+			return -1;
+		}
 		
 	}
 	
+	// Driver method for blackjack should be in game class
+	// controller can just take input from user
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		Controller ctl = new Controller();
 		
 		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
 		boolean hitSoft17 = new Random().nextBoolean();
@@ -58,7 +58,24 @@ public class Controller {
 		System.out.println(dealer.dealerRuleString());
 		System.out.println("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
 		
-		ctl.retreiveBet(p1, sc);
+		int bet = 0;
+		boolean isNotValidBet = false;
+		
+		do {
+			
+			bet = retreiveBet(sc);
+				
+			if (!p1.validBet(bet) && bet != -1) {
+				System.out.println("Not a valid bet. Try again.");
+			} else if (bet == -1) {
+				// Do nothing
+			}
+			else {
+				p1.getHand().placeBet(bet);
+				isNotValidBet = true;
+			}			
+			
+		} while (!isNotValidBet);
 		
 		game.dealCards(p1, dealer);
 		
@@ -69,6 +86,7 @@ public class Controller {
 			System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
 			choice = sc.nextInt();
 			
+			// create enums for hit/stay/double/split
 			if (choice == 1)	{
 				
 				p1.playerHit(game);
