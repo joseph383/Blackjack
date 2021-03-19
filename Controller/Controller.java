@@ -6,7 +6,6 @@ import model.Player;
 import model.Constants;
 
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Controller {
@@ -35,12 +34,9 @@ public class Controller {
 
 		Scanner sc = new Scanner(System.in);
 		
-		// Generate random boolean for dealer rules: true is stay and false is hit on soft 17
-		boolean hitSoft17 = new Random().nextBoolean();
-		
 		game.setPlayingCards(game.shuffleCards(game.createCardArray(Constants.DEFAULT_NUM_DECKS), Constants.DEFAULT_NUM_DECKS));
 		
-		Dealer dealer = new Dealer("Dealer", hitSoft17);
+		Dealer dealer = new Dealer("Dealer");
 		Player p1 = new Player("You");
 		
 		//deal cards
@@ -55,7 +51,7 @@ public class Controller {
 		View.startupGame();
 		int choice;
 		
-		System.out.println(dealer.dealerRuleString());
+		System.out.println("Dealer " + new String(dealer.getDealerRule() + " ").replace("_", " "));
 		System.out.println("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
 		
 		int bet = 0;
