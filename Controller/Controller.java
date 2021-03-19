@@ -82,21 +82,19 @@ public class Controller {
 			System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
 			choice = sc.nextInt();
 			
-			// create enums for hit/stay/double/split
-			if (choice == 1)	{
-				
-				p1.playerHit(game);
-				
-			}
-			else if (choice == 0) {
+			if (choice == Constants.PLAYER_STAY) {
 				
 				if (p1.playerStay(game)) {
 					continue;
 				}
 				
 				break;
+			} else if (choice == Constants.PLAYER_HIT)	{
+				
+				p1.playerHit(game);
+				
 			}
-			else if (choice == 2) {
+			else if (choice == Constants.PLAYER_DOUBLE) {
 				
 				if (p1.playerDouble(game)) {
 					continue;
@@ -105,7 +103,7 @@ public class Controller {
 				break;
 				
 			}
-			else if (choice == 3) {
+			else if (choice == Constants.PLAYER_SPLIT) {
 				
 				p1.playerSplit(game);
 				
