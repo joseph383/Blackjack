@@ -10,9 +10,7 @@ import java.util.Scanner;
 
 public class Controller {
 	
-	static Game game = new Game();
-	
-	public static int retreiveBet(Scanner sc) {
+	public int retreiveBet(Scanner sc) {
 		
 		int bet = 0;
 		
@@ -33,6 +31,8 @@ public class Controller {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+		Game game = new Game();
+		Controller controller = new Controller();
 		
 		game.createCardArray();
 		game.shuffleCards();
@@ -60,7 +60,7 @@ public class Controller {
 		
 		do {
 			
-			bet = retreiveBet(sc);
+			bet = controller.retreiveBet(sc);
 				
 			if (!p1.validBet(bet) && bet != -1) {
 				System.out.println("Not a valid bet. Try again.");
