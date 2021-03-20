@@ -34,7 +34,8 @@ public class Controller {
 
 		Scanner sc = new Scanner(System.in);
 		
-		game.setPlayingCards(game.shuffleCards(game.createCardArray(Constants.DEFAULT_NUM_DECKS), Constants.DEFAULT_NUM_DECKS));
+		game.createCardArray();
+		game.shuffleCards();
 		
 		Dealer dealer = new Dealer("Dealer");
 		Player p1 = new Player("You");
@@ -43,7 +44,7 @@ public class Controller {
 		while (p1.getMoneyTotal() > 0) {
 		
 			if (game.getIndex() > 260) {
-				game.setPlayingCards(game.shuffleCards(game.getPlayingCards(), Constants.DEFAULT_NUM_DECKS));
+				game.shuffleCards();
 				game.setIndex(0);
 				System.out.println("RESHUFFLING");
 			}
@@ -118,7 +119,7 @@ public class Controller {
 			System.out.println("You Bust\n");
 		}
 
-		dealer.dealerPlay(dealer, game.getPlayingCards(), game.getIndex());
+		dealer.dealerPlay(game.getPlayingCards(), game.getIndex());
 	}
 		
 		if (game.getSplit()) {

@@ -37,20 +37,20 @@ public class Dealer extends CardPlayer {
 		}
 	}
 	
-	public void dealerPlay(Dealer dealer, Card [] playingCards, int index) {
+	public void dealerPlay(Card [] playingCards, int index) {
 		
 		System.out.println("Dealer hand:");
-		dealer.getHand().printHandDetails();
+		getHand().printHandDetails();
 		
-		while (dealer.getHand().getHandValue() < 17 || (dealer.getHand().getHandValue() == 17 && 
-				dealer.getHand().getAceObj().softAce() && dealer.getDealerRule() == DealerRule.Hits_on_Soft_17)) {
+		while (getHand().getHandValue() < 17 || (getHand().getHandValue() == 17 && 
+				getHand().getAceObj().softAce() && getDealerRule() == DealerRule.Hits_on_Soft_17)) {
 			
-			dealer.getHand().addCardToHand(playingCards[index]);
+			getHand().addCardToHand(playingCards[index]);
 			System.out.println("New card is: " + playingCards[index].toString());
 			index++;
 			
 			System.out.println("Dealer hand:");
-			dealer.getHand().printHandDetails();
+			getHand().printHandDetails();
 		}
 	}
 
