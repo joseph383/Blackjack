@@ -14,7 +14,7 @@ public class Game {
     
     public Game() {
         index = 0;
-        playingCards = new Card[Constants.DEFAULT_NUM_DECKS * 52];
+        playingCards = new Card[Constants.DEFAULT_NUM_DECKS * Constants.NUMBER_OF_CARDS_IN_DECK];
         split = false;
     }
 
@@ -45,16 +45,17 @@ public class Game {
 	// Create array of cards sequentially (A-K: Spades, Hearts, Clubs, Diamonds)
 	public void createCardArray() {
 		
+		int cardIndex = 0;
 		// control how many decks
 		for (int deckIndex = 1; deckIndex <= Constants.DEFAULT_NUM_DECKS; deckIndex++) {
 			// each face in a single deck
-			for (int faceIndex = 0; faceIndex < 13; faceIndex++) {	
+			for (int faceIndex = 0; faceIndex < Constants.NUMBER_OF_FACES_IN_DECK; faceIndex++) {	
 				// each suit in single deck
-				for (int suitIndex = 0; suitIndex < 4; suitIndex++) {
-					playingCards[index] = new Card(Suit.values()[suitIndex], Face.values()[faceIndex]);
-					playingCards[index].setValue();
+				for (int suitIndex = 0; suitIndex < Constants.NUMBER_OF_SUITS_IN_DECK; suitIndex++) {
+					playingCards[cardIndex] = new Card(Suit.values()[suitIndex], Face.values()[faceIndex]);
+					playingCards[cardIndex].setValue();
 					
-					index++;
+					cardIndex++;
 				}
 				
 			}
@@ -69,7 +70,7 @@ public class Game {
 			
 			for (int i = 0; i < playingCards.length;) {
 				
-				int randomIndex = (int) (Math.random() * (52 * Constants.DEFAULT_NUM_DECKS));
+				int randomIndex = (int) (Math.random() * (Constants.NUMBER_OF_CARDS_IN_DECK * Constants.DEFAULT_NUM_DECKS));
 				
 				// If this card has not been shuffled, shuffle it and update the index
 				if (placeHolder[randomIndex] == 0) {

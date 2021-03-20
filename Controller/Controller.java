@@ -43,7 +43,7 @@ public class Controller {
 		//deal cards
 		while (p1.getMoneyTotal() > 0) {
 		
-			if (game.getIndex() > 260) {
+			if (game.getIndex() > Constants.RESHUFFLE_CARD_INDEX) {
 				game.shuffleCards();
 				game.setIndex(0);
 				System.out.println("RESHUFFLING");

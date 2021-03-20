@@ -11,7 +11,7 @@ public class Player extends CardPlayer {
 	public Player(String name) {
 		super(name);
 		wins = loses = handIndex = 0;
-		moneyTotal = 100;
+		moneyTotal = Constants.STARTING_BALANCE;
 		hand = new Hand[3];
 		hand[0] = new Hand();
 		hand[1] = new Hand();
