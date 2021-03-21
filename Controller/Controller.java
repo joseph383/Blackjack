@@ -1,38 +1,20 @@
 package controller;
 import view.View;
+import model.CommandLineInput;
 import model.Dealer;
 import model.Game;
 import model.Player;
 import model.Constants;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import model.UserInput;
 
 public class Controller {
-	
-	public int retreiveBet(Scanner sc) {
-		
-		int bet = 0;
-		
-		try {
-			bet = sc.nextInt();
-			return bet;
-		} catch (InputMismatchException ex) {
-			System.out.println("Not a valid bet. Expected an integer value. Try again.");
-			System.out.println("How much would you like to bet on this round?");
-			sc.next();
-			return -1;
-		}
-		
-	}
 	
 	// Driver method for blackjack should be in game class
 	// controller can just take input from user
 	public static void main(String[] args) {
-
-		Scanner sc = new Scanner(System.in);
+		
 		Game game = new Game();
-		Controller controller = new Controller();
+		UserInput input = new CommandLineInput();
 		
 		game.createCardArray();
 		game.shuffleCards();
@@ -60,7 +42,7 @@ public class Controller {
 		
 		do {
 			
-			bet = controller.retreiveBet(sc);
+			bet = input.makeBet();
 				
 			if (!p1.validBet(bet) && bet != -1) {
 				System.out.println("Not a valid bet. Try again.");
@@ -81,7 +63,7 @@ public class Controller {
 		do {
 			
 			System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
-			choice = sc.nextInt();
+			choice = input.makePlayerChoice();
 			
 			if (choice == Constants.PLAYER_STAY) {
 				
@@ -137,7 +119,7 @@ public class Controller {
 		
 		System.out.println("Game over. You ran out of money.");
 		
-		sc.close();
+		((CommandLineInput) input).closeInput();
 	}
 
 }
