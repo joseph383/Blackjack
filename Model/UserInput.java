@@ -2,7 +2,7 @@ package model;
 
 public interface UserInput {
 	
-	public int makeBet();
+	public int makeBet(SystemOutput output);
 	
 	public int makePlayerChoice();
 

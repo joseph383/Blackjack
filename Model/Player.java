@@ -76,30 +76,30 @@ public class Player extends CardPlayer {
 		loses++;
 	}
 	
-	public void playerHit(Game game) {
+	public void playerHit(Game game, SystemOutput output) {
 		
 		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		output.displayMessage("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
 		
 		game.setIndex(game.getIndex()+1);
-		getHand().printHandDetails();
+		getHand().printHandDetails(output);
 		
 		if (getHand().isBust() && getHandIndex() == 1 && game.getSplit()) {
 			advanceHand();
-			System.out.println("You Bust\nSecond split hand:");
-			getHand().printHandDetails();
+			output.displayMessage("You Bust\nSecond split hand:");
+			getHand().printHandDetails(output);
 		}
 		
 	}
 	
-	public boolean playerStay(Game game) {
+	public boolean playerStay(Game game, SystemOutput output) {
 		
-		getHand().printHandDetails();
+		getHand().printHandDetails(output);
 		
 		if (game.getSplit() && getHandIndex() == 1) {
 			advanceHand();
-			System.out.println("Second split hand:");
-			getHand().printHandDetails();
+			output.displayMessage("Second split hand:");
+			getHand().printHandDetails(output);
 			return true;
 		}
 		
@@ -107,28 +107,28 @@ public class Player extends CardPlayer {
 		
 	}
 	
-	public boolean playerDouble(Game game) {
+	public boolean playerDouble(Game game, SystemOutput output) {
 		
 		String err = game.doubleErrorMsg(this);
 		
 		if(err.length() != 0) {
-			System.out.println(err);
+			output.displayMessage(err);
 			return true;
 		}
 		
 		getHand().placeBet(getHand().getBet() * 2);
 	
 		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		System.out.println("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		output.displayMessage("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
 		
 		game.setIndex(game.getIndex()+1);
 		
-		getHand().printHandDetails();
+		getHand().printHandDetails(output);
 		
 		if (game.getSplit() && getHandIndex() == 1) {
 			advanceHand();
-			System.out.println("Second split hand:");
-			getHand().printHandDetails();
+			output.displayMessage("Second split hand:");
+			getHand().printHandDetails(output);
 			return true;
 		}
 		
@@ -136,12 +136,12 @@ public class Player extends CardPlayer {
 		
 	}
 	
-	public void playerSplit(Game game) {
+	public void playerSplit(Game game, SystemOutput output) {
 		
 		String err = game.splitErrorMsg(this);
 		
 		if(err.length() != 0) {
-			System.out.println(err);
+			output.displayMessage(err);
 			return;
 		}
 				
@@ -164,8 +164,8 @@ public class Player extends CardPlayer {
 			getHand().addCardToHand(firstTemp);
 			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
 			game.setIndex(game.getIndex()+1);
-			System.out.println("First split hand:");
-			getHand().printHandDetails();
+			output.displayMessage("First split hand:");
+			getHand().printHandDetails(output);
 			
 			prevHand();
 			
@@ -176,8 +176,8 @@ public class Player extends CardPlayer {
 			getHand().addCardToHand(secondTemp);
 			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
 			game.setIndex(game.getIndex()+1);
-			System.out.println("Second split hand:");
-			getHand().printHandDetails();
+			output.displayMessage("Second split hand:");
+			getHand().printHandDetails(output);
 			prevHand();
 		
 	}

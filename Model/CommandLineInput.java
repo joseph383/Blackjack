@@ -24,7 +24,7 @@ public class CommandLineInput implements UserInput {
 	}
 
 	@Override
-	public int makeBet() {
+	public int makeBet(SystemOutput output) {
 		
 		int bet = 0;
 		
@@ -32,8 +32,8 @@ public class CommandLineInput implements UserInput {
 			bet = scanner.nextInt();
 			return bet;
 		} catch (InputMismatchException ex) {
-			System.out.println("Not a valid bet. Expected an integer value. Try again.");
-			System.out.println("How much would you like to bet on this round?");
+			output.displayMessage("Not a valid bet. Expected an integer value. Try again.");
+			output.displayMessage("How much would you like to bet on this round?");
 			scanner.next();
 			return -1;
 		}

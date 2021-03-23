@@ -59,12 +59,12 @@ public class Hand {
 		return handValue;
 	}
 	
-	public void printHandDetails() {
+	public void printHandDetails(SystemOutput output) {
 		
 		for (int i = 0; i < cards.size(); i++) {
-			System.out.print(cards.get(i).toString() + " ");
+			output.displayMessage(cards.get(i).toString() + " ");
 		}
-		System.out.println("\nTotal is: " + getHandValue() + "\n");
+		output.displayMessage("\nTotal is: " + getHandValue() + "\n");
 		
 	}	
 	

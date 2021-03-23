@@ -1,10 +1,12 @@
 package controller;
 import view.View;
 import model.CommandLineInput;
+import model.ConsoleOutput;
 import model.Dealer;
 import model.Game;
 import model.Player;
 import model.Constants;
+import model.SystemOutput;
 import model.UserInput;
 
 public class Controller {
@@ -15,6 +17,7 @@ public class Controller {
 		
 		Game game = new Game();
 		UserInput input = new CommandLineInput();
+		SystemOutput output = new ConsoleOutput();
 		
 		game.createCardArray();
 		game.shuffleCards();
@@ -28,24 +31,24 @@ public class Controller {
 			if (game.getIndex() > Constants.RESHUFFLE_CARD_INDEX) {
 				game.shuffleCards();
 				game.setIndex(0);
-				System.out.println("RESHUFFLING");
+				output.displayMessage("RESHUFFLING");
 			}
 			
-		View.startupGame();
+		View.startupGame(output);
 		int choice;
 		
-		System.out.println("Dealer " + new String(dealer.getDealerRule() + " ").replace("_", " "));
-		System.out.println("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
+		output.displayMessage("Dealer " + new String(dealer.getDealerRule() + " ").replace("_", " "));
+		output.displayMessage("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
 		
 		int bet = 0;
 		boolean isNotValidBet = false;
 		
 		do {
 			
-			bet = input.makeBet();
+			bet = input.makeBet(output);
 				
 			if (!p1.validBet(bet) && bet != -1) {
-				System.out.println("Not a valid bet. Try again.");
+				output.displayMessage("Not a valid bet. Try again.");
 			} else if (bet == -1) {
 				// Do nothing
 			}
@@ -56,30 +59,30 @@ public class Controller {
 			
 		} while (!isNotValidBet);
 		
-		game.dealCards(p1, dealer);
+		game.dealCards(p1, dealer, output);
 		
 	if (!dealer.getHand().isBlackJack()) {
 		
 		do {
 			
-			System.out.println("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
+			output.displayMessage("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
 			choice = input.makePlayerChoice();
 			
 			if (choice == Constants.PLAYER_STAY) {
 				
-				if (p1.playerStay(game)) {
+				if (p1.playerStay(game, output)) {
 					continue;
 				}
 				
 				break;
 			} else if (choice == Constants.PLAYER_HIT)	{
 				
-				p1.playerHit(game);
+				p1.playerHit(game, output);
 				
 			}
 			else if (choice == Constants.PLAYER_DOUBLE) {
 				
-				if (p1.playerDouble(game)) {
+				if (p1.playerDouble(game, output)) {
 					continue;
 				}
 				
@@ -88,36 +91,36 @@ public class Controller {
 			}
 			else if (choice == Constants.PLAYER_SPLIT) {
 				
-				p1.playerSplit(game);
+				p1.playerSplit(game, output);
 				
 			}
 			else {
-				System.out.println(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
+				output.displayMessage(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
 			}
 		
 		} while (!p1.getHand().isBust() && true);
 		
 		if (p1.getHand().isBust()) {
-			System.out.println("You Bust\n");
+			output.displayMessage("You Bust\n");
 		}
 
-		dealer.dealerPlay(game.getPlayingCards(), game.getIndex());
+		dealer.dealerPlay(game.getPlayingCards(), game.getIndex(), output);
 	}
 		
 		if (game.getSplit()) {
-			game.handleSplitHand(p1, dealer);
+			game.handleSplitHand(p1, dealer, output);
 		}
 		else {
-			game.determineWinner(p1, dealer);
+			game.determineWinner(p1, dealer, output);
 		}
 		
 		p1.getHand().resetHand();
 		dealer.getHand().resetHand();
 		p1.playerReset();
-		System.out.println("Player wins: " + p1.getWins() + "\nPlayer loses: " + p1.getLoses());
+		output.displayMessage("Player wins: " + p1.getWins() + "\nPlayer loses: " + p1.getLoses());
 		}
 		
-		System.out.println("Game over. You ran out of money.");
+		output.displayMessage("Game over. You ran out of money.");
 		
 		((CommandLineInput) input).closeInput();
 	}
