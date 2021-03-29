@@ -41,6 +41,11 @@ public class Game {
     public void setSplit(boolean split) {
         this.split = split;
     }
+    
+    public Card dealNextCard() {
+    	cardIndex++;
+    	return playingCards[cardIndex];
+    }
 	
 	// Create array of cards sequentially (A-K: Spades, Hearts, Clubs, Diamonds)
 	public void createCardArray() {

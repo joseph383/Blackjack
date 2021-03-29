@@ -78,10 +78,10 @@ public class Player extends CardPlayer {
 	
 	public void playerHit(Game game, SystemOutput output) {
 		
-		getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-		output.displayMessage("New card is: " + game.getPlayingCards()[game.getCardIndex()].toString());
+		Card nextCard = game.dealNextCard();
+		getHand().addCardToHand(nextCard);
+		output.displayMessage("New card is: " + nextCard);
 		
-		game.setCardIndex(game.getCardIndex()+1);
 		getHand().printHandDetails(output);
 		
 		if (getHand().isBust() && getHandIndex() == 1 && game.getSplit()) {
@@ -121,7 +121,7 @@ public class Player extends CardPlayer {
 		getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
 		output.displayMessage("New card is: " + game.getPlayingCards()[game.getCardIndex()].toString());
 		
-		game.setCardIndex(game.getCardIndex()+1);
+		//game.setCardIndex(game.getCardIndex()+1);
 		
 		getHand().printHandDetails(output);
 		
@@ -163,7 +163,7 @@ public class Player extends CardPlayer {
 			advanceHand();
 			getHand().addCardToHand(firstTemp);
 			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-			game.setCardIndex(game.getCardIndex()+1);
+			//game.setCardIndex(game.getCardIndex()+1);
 			output.displayMessage("First split hand:");
 			getHand().printHandDetails(output);
 			
@@ -175,7 +175,7 @@ public class Player extends CardPlayer {
 			
 			getHand().addCardToHand(secondTemp);
 			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-			game.setCardIndex(game.getCardIndex()+1);
+			//game.setCardIndex(game.getCardIndex()+1);
 			output.displayMessage("Second split hand:");
 			getHand().printHandDetails(output);
 			prevHand();

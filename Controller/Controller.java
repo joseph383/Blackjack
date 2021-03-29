@@ -106,7 +106,7 @@ public class Controller {
 			output.displayMessage("You Bust\n");
 		}
 
-		dealer.dealerPlay(game.getPlayingCards(), game.getCardIndex(), output);
+		dealer.dealerPlay(game, output);
 	}
 		
 		if (game.getSplit()) {
