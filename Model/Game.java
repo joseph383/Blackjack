@@ -22,10 +22,6 @@ public class Game {
         return cardIndex;
     }
 
-    public void setCardIndex(int cardIndex) {
-        this.cardIndex = cardIndex;
-    }
-
     public Card[] getPlayingCards() {
         return playingCards;
     }
@@ -171,24 +167,25 @@ public class Game {
 		
 		public void dealCards(Player p1, Dealer dealer, SystemOutput output) {
 			
-			p1.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
-			setCardIndex(getCardIndex()+1);
-			p1.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
-			setCardIndex(getCardIndex()+1);
+			Card nextCard = dealNextCard();
+			p1.getHand().addCardToHand(nextCard);
+			
+			nextCard = dealNextCard();
+			p1.getHand().addCardToHand(nextCard);
 			
 			output.displayMessage("Your hand:");
 			p1.getHand().printHandDetails(output);
 			
 			output.displayMessage("_________________________________________");
 
-			dealer.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
-			setCardIndex(getCardIndex()+1);
+			nextCard = dealNextCard();
+			dealer.getHand().addCardToHand(nextCard);
 			
 			output.displayMessage("Dealer hand:");
 			dealer.getHand().printHandDetails(output);
 			
-			dealer.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
-			setCardIndex(getCardIndex()+1);
+			nextCard = dealNextCard();
+			dealer.getHand().addCardToHand(nextCard);
 
 		}
 		
