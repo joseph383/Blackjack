@@ -25,6 +25,8 @@ public class Controller {
 		Dealer dealer = new Dealer("Dealer");
 		Player p1 = new Player("You");
 		
+		boolean promptForUserInput = true;
+		
 		//deal cards
 		while (p1.getMoneyTotal() > 0) {
 		
@@ -69,37 +71,36 @@ public class Controller {
 			output.displayMessage("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
 			choice = input.makePlayerChoice();
 			
-			if (choice == Constants.PLAYER_STAY) {
-				
-				if (p1.playerStay(game, output)) {
-					continue;
+			switch (choice) {
+			
+				case Constants.PLAYER_STAY: {
+					p1.playerStay(game, output);
+					promptForUserInput = false;
+					break;
 				}
-				
-				break;
-			} else if (choice == Constants.PLAYER_HIT)	{
-				
-				p1.playerHit(game, output);
-				
-			}
-			else if (choice == Constants.PLAYER_DOUBLE) {
-				
-				if (p1.playerDouble(game, output)) {
-					continue;
+				case Constants.PLAYER_HIT: {
+					p1.playerHit(game, output);
+					break;
 				}
-				
-				break;
-				
+				/*case Constants.PLAYER_DOUBLE: {
+					
+					if (p1.playerDouble(game, output)) {
+						continue;
+					}
+					
+					break;
+				}
+				case Constants.PLAYER_SPLIT: {
+					p1.playerSplit(game, output);
+				}*/
+				default: {
+					output.displayMessage(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
+				}
+			
 			}
-			else if (choice == Constants.PLAYER_SPLIT) {
-				
-				p1.playerSplit(game, output);
-				
-			}
-			else {
-				output.displayMessage(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
-			}
+			
 		
-		} while (!p1.getHand().isBust() && true);
+		} while (!p1.getHand().isBust() && promptForUserInput && true);
 		
 		if (p1.getHand().isBust()) {
 			output.displayMessage("You Bust\n");
@@ -118,6 +119,7 @@ public class Controller {
 		p1.getHand().resetHand();
 		dealer.getHand().resetHand();
 		p1.playerReset();
+		promptForUserInput = true;
 		output.displayMessage("Player wins: " + p1.getWins() + "\nPlayer loses: " + p1.getLoses());
 		}
 		

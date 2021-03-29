@@ -92,18 +92,18 @@ public class Player extends CardPlayer {
 		
 	}
 	
-	public boolean playerStay(Game game, SystemOutput output) {
+	public void playerStay(Game game, SystemOutput output) {
 		
 		getHand().printHandDetails(output);
 		
-		if (game.getSplit() && getHandIndex() == 1) {
+		/*if (game.getSplit() && getHandIndex() == 1) {
 			advanceHand();
 			output.displayMessage("Second split hand:");
 			getHand().printHandDetails(output);
 			return true;
 		}
 		
-		return false;
+		return false;*/
 		
 	}
 	
