@@ -7,23 +7,23 @@ import model.Constants;
 public class Game {
 
     // Total playing card index
-	private int index;
+	private int cardIndex;
 	// Data structure to hold all playing cards
 	private Card [] playingCards;
     private boolean split;
     
     public Game() {
-        index = 0;
+    	cardIndex = 0;
         playingCards = new Card[Constants.DEFAULT_NUM_DECKS * Constants.NUMBER_OF_CARDS_IN_DECK];
         split = false;
     }
 
-    public int getIndex() {
-        return index;
+    public int getCardIndex() {
+        return cardIndex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setCardIndex(int cardIndex) {
+        this.cardIndex = cardIndex;
     }
 
     public Card[] getPlayingCards() {
@@ -45,17 +45,17 @@ public class Game {
 	// Create array of cards sequentially (A-K: Spades, Hearts, Clubs, Diamonds)
 	public void createCardArray() {
 		
-		int cardIndex = 0;
+		int index = 0;
 		// control how many decks
 		for (int deckIndex = 1; deckIndex <= Constants.DEFAULT_NUM_DECKS; deckIndex++) {
 			// each face in a single deck
 			for (int faceIndex = 0; faceIndex < Constants.NUMBER_OF_FACES_IN_DECK; faceIndex++) {	
 				// each suit in single deck
 				for (int suitIndex = 0; suitIndex < Constants.NUMBER_OF_SUITS_IN_DECK; suitIndex++) {
-					playingCards[cardIndex] = new Card(Suit.values()[suitIndex], Face.values()[faceIndex]);
-					playingCards[cardIndex].setValue();
+					playingCards[index] = new Card(Suit.values()[suitIndex], Face.values()[faceIndex]);
+					playingCards[index].setValue();
 					
-					cardIndex++;
+					index++;
 				}
 				
 			}
@@ -84,7 +84,12 @@ public class Game {
 			}
 			
 			playingCards = randomArray;
+			cardIndex = 0;
 			
+		}
+		
+		public boolean cardsNeedToBeReshuffled() {
+			return getCardIndex() > Constants.RESHUFFLE_CARD_INDEX;
 		}
 		
 		public String splitErrorMsg(Player p1) {
@@ -161,24 +166,24 @@ public class Game {
 		
 		public void dealCards(Player p1, Dealer dealer, SystemOutput output) {
 			
-			p1.getHand().addCardToHand(getPlayingCards()[getIndex()]);
-			setIndex(getIndex()+1);
-			p1.getHand().addCardToHand(getPlayingCards()[getIndex()]);
-			setIndex(getIndex()+1);
+			p1.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
+			setCardIndex(getCardIndex()+1);
+			p1.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
+			setCardIndex(getCardIndex()+1);
 			
 			output.displayMessage("Your hand:");
 			p1.getHand().printHandDetails(output);
 			
 			output.displayMessage("_________________________________________");
 
-			dealer.getHand().addCardToHand(getPlayingCards()[getIndex()]);
-			setIndex(getIndex()+1);
+			dealer.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
+			setCardIndex(getCardIndex()+1);
 			
 			output.displayMessage("Dealer hand:");
 			dealer.getHand().printHandDetails(output);
 			
-			dealer.getHand().addCardToHand(getPlayingCards()[getIndex()]);
-			setIndex(getIndex()+1);
+			dealer.getHand().addCardToHand(getPlayingCards()[getCardIndex()]);
+			setCardIndex(getCardIndex()+1);
 
 		}
 		

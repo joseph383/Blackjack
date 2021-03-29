@@ -1,9 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Player extends CardPlayer {
 	
 	private int moneyTotal;
-	private Hand [] hand;
+	private ArrayList<Hand> hand;
 	private int wins;
 	private int loses;
 	private int handIndex;
@@ -12,20 +14,18 @@ public class Player extends CardPlayer {
 		super(name);
 		wins = loses = handIndex = 0;
 		moneyTotal = Constants.STARTING_BALANCE;
-		hand = new Hand[3];
-		hand[0] = new Hand();
-		hand[1] = new Hand();
-		hand[2] = new Hand();
+		hand = new ArrayList<Hand>();
+		hand.add(new Hand());
 	}
 	
 	public Hand getHand() {
-		return hand[handIndex];
+		return hand.get(handIndex);
 	}
 	
 	public void playerReset() {
-		hand[0].resetHand();
-		hand[1].resetHand();
-		hand[2].resetHand();
+		for (int i = 0; i < hand.size(); i++) {
+			hand.get(0).resetHand();
+		}
 		handIndex = 0;
 	}
 	
@@ -78,10 +78,10 @@ public class Player extends CardPlayer {
 	
 	public void playerHit(Game game, SystemOutput output) {
 		
-		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		output.displayMessage("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
+		output.displayMessage("New card is: " + game.getPlayingCards()[game.getCardIndex()].toString());
 		
-		game.setIndex(game.getIndex()+1);
+		game.setCardIndex(game.getCardIndex()+1);
 		getHand().printHandDetails(output);
 		
 		if (getHand().isBust() && getHandIndex() == 1 && game.getSplit()) {
@@ -118,10 +118,10 @@ public class Player extends CardPlayer {
 		
 		getHand().placeBet(getHand().getBet() * 2);
 	
-		getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-		output.displayMessage("New card is: " + game.getPlayingCards()[game.getIndex()].toString());
+		getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
+		output.displayMessage("New card is: " + game.getPlayingCards()[game.getCardIndex()].toString());
 		
-		game.setIndex(game.getIndex()+1);
+		game.setCardIndex(game.getCardIndex()+1);
 		
 		getHand().printHandDetails(output);
 		
@@ -162,8 +162,8 @@ public class Player extends CardPlayer {
 			Card firstTemp = getHand().getCards().get(0);
 			advanceHand();
 			getHand().addCardToHand(firstTemp);
-			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-			game.setIndex(game.getIndex()+1);
+			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
+			game.setCardIndex(game.getCardIndex()+1);
 			output.displayMessage("First split hand:");
 			getHand().printHandDetails(output);
 			
@@ -174,8 +174,8 @@ public class Player extends CardPlayer {
 			advanceHand();
 			
 			getHand().addCardToHand(secondTemp);
-			getHand().addCardToHand(game.getPlayingCards()[game.getIndex()]);
-			game.setIndex(game.getIndex()+1);
+			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
+			game.setCardIndex(game.getCardIndex()+1);
 			output.displayMessage("Second split hand:");
 			getHand().printHandDetails(output);
 			prevHand();

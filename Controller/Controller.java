@@ -28,9 +28,9 @@ public class Controller {
 		//deal cards
 		while (p1.getMoneyTotal() > 0) {
 		
-			if (game.getIndex() > Constants.RESHUFFLE_CARD_INDEX) {
+			// try to test this
+			if (game.cardsNeedToBeReshuffled()) {
 				game.shuffleCards();
-				game.setIndex(0);
 				output.displayMessage("RESHUFFLING");
 			}
 			
@@ -40,6 +40,7 @@ public class Controller {
 		output.displayMessage("Dealer " + new String(dealer.getDealerRule() + " ").replace("_", " "));
 		output.displayMessage("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
 		
+		// put this in method
 		int bet = 0;
 		boolean isNotValidBet = false;
 		
@@ -104,7 +105,7 @@ public class Controller {
 			output.displayMessage("You Bust\n");
 		}
 
-		dealer.dealerPlay(game.getPlayingCards(), game.getIndex(), output);
+		dealer.dealerPlay(game.getPlayingCards(), game.getCardIndex(), output);
 	}
 		
 		if (game.getSplit()) {
