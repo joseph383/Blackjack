@@ -11,6 +11,29 @@ import model.UserInput;
 
 public class Controller {
 	
+	private static void promptUserForBetAmount (Player p1, UserInput input, SystemOutput output) {
+		
+		int bet = 0;
+		boolean isNotValidBet = false;
+		
+		do {
+			
+			bet = input.makeBet(output);
+				
+			if (!p1.validBet(bet) && bet != -1) {
+				output.displayMessage("Not a valid bet. Try again.");
+			} else if (bet == -1) {
+				// Do nothing
+			}
+			else {
+				p1.getHand().placeBet(bet);
+				isNotValidBet = true;
+			}			
+			
+		} while (!isNotValidBet);
+		
+	}
+	
 	// Driver method for blackjack should be in game class
 	// controller can just take input from user
 	public static void main(String[] args) {
@@ -42,25 +65,7 @@ public class Controller {
 		output.displayMessage("Dealer " + new String(dealer.getDealerRule() + " ").replace("_", " "));
 		output.displayMessage("You have $" + p1.getMoneyTotal() + ". How much would you like to bet on this round?");
 		
-		// put this in method
-		int bet = 0;
-		boolean isNotValidBet = false;
-		
-		do {
-			
-			bet = input.makeBet(output);
-				
-			if (!p1.validBet(bet) && bet != -1) {
-				output.displayMessage("Not a valid bet. Try again.");
-			} else if (bet == -1) {
-				// Do nothing
-			}
-			else {
-				p1.getHand().placeBet(bet);
-				isNotValidBet = true;
-			}			
-			
-		} while (!isNotValidBet);
+		promptUserForBetAmount(p1, input, output);
 		
 		game.dealCards(p1, dealer, output);
 		
