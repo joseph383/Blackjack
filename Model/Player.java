@@ -109,7 +109,7 @@ public class Player extends CardPlayer {
 	
 	public boolean playerDouble(Game game, SystemOutput output) {
 		
-		String err = game.doubleErrorMsg(this);
+		String err = game.validateDouble(this);
 		
 		if(err.length() != 0) {
 			output.displayMessage(err);
@@ -138,7 +138,7 @@ public class Player extends CardPlayer {
 	
 	public void playerSplit(Game game, SystemOutput output) {
 		
-		String err = game.splitErrorMsg(this);
+		String err = game.validateSplit(this);
 		
 		if(err.length() != 0) {
 			output.displayMessage(err);
