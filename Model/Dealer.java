@@ -43,8 +43,8 @@ public class Dealer extends CardPlayer {
 		getHand().printHandDetails(output);
 		
 		// move this condition to method to make it easier to read
-		while (getHand().getHandValue() < 17 || (getHand().getHandValue() == 17 && 
-				getHand().getAceObj().softAce() && getDealerRule() == DealerRule.Hits_on_Soft_17)) {
+		while (getHand().calculateHandTotal() < 17 || (getHand().calculateHandTotal() == 17 && 
+				getDealerRule() == DealerRule.Hits_on_Soft_17)) {
 			
 			Card nextCard = game.dealNextCard();
 			getHand().addCardToHand(nextCard);

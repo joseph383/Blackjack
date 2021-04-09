@@ -151,11 +151,11 @@ public class Game {
 				output.displayMessage(p1.getName() + " lose $" + p1.getHand().getBet() + "\n");
 				p1.loseGame(p1.getHand().getBet());
 			}
-			else if (p1.getHand().getHandValue() > dealer.getHand().getHandValue()) {
+			else if (p1.getHand().calculateHandTotal() > dealer.getHand().calculateHandTotal()) {
 				output.displayMessage(p1.getName() + " win $" + p1.getHand().getBet() + "\n");
 				p1.winGame(false, p1.getHand().getBet());
 			}
-			else if (p1.getHand().getHandValue() < dealer.getHand().getHandValue()) {
+			else if (p1.getHand().calculateHandTotal() < dealer.getHand().calculateHandTotal()) {
 				output.displayMessage(p1.getName() + " lose $" + p1.getHand().getBet() + "\n");
 				p1.loseGame(p1.getHand().getBet());
 			}

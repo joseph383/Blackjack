@@ -4,23 +4,18 @@ import java.util.ArrayList;
 
 public class Hand {
 
-	private int handValue;
 	private ArrayList<Card> cards;
-	private AceInHand aceObj;
 	private boolean isSplit;
 	private int bet;
 	
 	public Hand() {
 		cards = new ArrayList<Card>();
-		handValue = 0;
-		aceObj = new AceInHand();
 		isSplit = false;
 	}
 	
 	public void resetHand() {
-		handValue = bet = 0;
+		bet = 0;
 		cards.clear();
-		aceObj.resetAceObj();
 		isSplit = false;
 	}
 	
@@ -40,23 +35,11 @@ public class Hand {
 	}
 	
 	public boolean isBlackJack() {
-		return handValue == 21 && cards.size() == 2 && !isSplit;
+		return calculateHandTotal() == 21 && cards.size() == 2 && !isSplit;
 	}
 	
 	public boolean isBust() {
-		return handValue > 21;
-	}
-	
-	public AceInHand getAceObj() {
-		return aceObj;
-	}
-	
-	public boolean containAce() {
-		return aceObj.getCount() > 0;
-	}
-	
-	public int getHandValue() {
-		return handValue;
+		return calculateHandTotal() > 21;
 	}
 	
 	public void printHandDetails(SystemOutput output) {
@@ -64,41 +47,44 @@ public class Hand {
 		for (int i = 0; i < cards.size(); i++) {
 			output.displayMessage(cards.get(i).toString() + " ");
 		}
-		output.displayMessage("\nTotal is: " + getHandValue() + "\n");
+		output.displayMessage("\nTotal is: " + calculateHandTotal() + "\n");
 		
 	}	
 	
 	public void addCardToHand(Card c) {
-		
 		cards.add(c);
+	}
+	
+	public int calculateHandTotal() {
 		
-		// no ace in, hand less than 11, and adding ace at default 11 value
-		if (!containAce() && c.getValue() == 11 && handValue <= 10) {
-			handValue += c.getValue(); 
-			aceObj.addIndex(c.getValue());
+		boolean aceInHand = false;
+		int handValue = 0;
+		
+		for (int i = 0; i < cards.size(); i++) {
+			
+			int cardValue = cards.get(i).getValue();
+			
+			// Calculate first ace after other cards have been added
+			if (cardValue == 11 && !aceInHand) {
+				aceInHand = true;
+			} // Subsequent aces will be valued at 1
+			else if (cardValue == 11 && aceInHand){
+				handValue += 1;
+			} else {
+				handValue += cardValue;
+			}
+			
 		}
-		// adding ace at 1 value, AND either have no prev ace and hand over 10 OR have an ace that is valued at 1
-		else if (c.getValue() == 11 && ((!containAce() && handValue > 10) || (containAce() && !aceObj.softAce()))) {
+		
+		// Set first ace to 11 if the rest of the hand is less than or equal to 10
+		if (aceInHand && handValue <= 10) {
+			handValue += 11;
+		} // Set first ace to 1 if the rest of the hand is greater than 10
+		else if (aceInHand && handValue > 10) {
 			handValue += 1;
-			aceObj.addIndex(1);
-		}
-		// has ace, not adding ace, soft ace, and new total will go over 21, change to 1
-		else if (containAce() && c.getValue() != 11 && aceObj.softAce() && (handValue + c.getValue() > 21)) {
-			handValue = handValue - 10 + cards.get(cards.size() - 1).getValue();
-			aceObj.updateAceVal(); 
-		}
-		// either don't have ace and adding non-ace OR have soft ace and adding non-ace and new total not bust OR not soft ace: add face value
-		else if ((!containAce() && c.getValue() != 11) || containAce() && c.getValue() != 11 && 
-				((aceObj.softAce() && (handValue + c.getValue() <= 21)) || (!aceObj.softAce()))) {
-			handValue += cards.get(cards.size() - 1).getValue(); 
-		}
-		// has ace, adding ace, and soft ace: add val and change ace to 1
-		else if (containAce() && c.getValue() == 11 && aceObj.softAce()) {
-			handValue = handValue - 10 + cards.get(cards.size() - 1).getValue();
-			aceObj.updateAceVal();
-			aceObj.addIndex(c.getValue()); 
 		}
 		
+		return handValue;
 	}
 	
 }
