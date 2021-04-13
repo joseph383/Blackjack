@@ -6,11 +6,11 @@ public class Card {
 	private Face face;
 	private int value;
 	
-	protected enum Face {
+	public enum Face {
 		Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, King, Queen, Jack, Ace
 	}
 	
-	protected enum Suit {
+	public enum Suit {
 		Spades, Hearts, Clubs, Diamonds
 	}
 	

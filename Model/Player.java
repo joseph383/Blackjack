@@ -1,50 +1,21 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Player extends CardPlayer {
 	
 	private int moneyTotal;
-	private ArrayList<Hand> hand;
+	private Hand hand;
 	private int wins;
 	private int loses;
-	private int handIndex;
 	
 	public Player(String name) {
 		super(name);
-		wins = loses = handIndex = 0;
+		wins = loses = 0;
 		moneyTotal = Constants.STARTING_BALANCE;
-		hand = new ArrayList<Hand>();
-		hand.add(new Hand());
+		hand = new Hand();
 	}
 	
 	public Hand getHand() {
-		return hand.get(handIndex);
-	}
-	
-	public void playerReset() {
-		for (int i = 0; i < hand.size(); i++) {
-			hand.get(0).resetHand();
-		}
-		handIndex = 0;
-	}
-	
-	/*
-	Move to next player hand in the event of split
-	*/
-	public void advanceHand() {
-		handIndex++;
-	}
-	
-	/*
-	Move to previous player hand in the event of split
-	*/
-	public void prevHand() {
-		handIndex--;
-	}
-	
-	public int getHandIndex() {
-		return handIndex;
+		return hand;
 	}
 	
 	public int getWins() {
@@ -84,102 +55,12 @@ public class Player extends CardPlayer {
 		
 		getHand().printHandDetails(output);
 		
-		if (getHand().isBust() && getHandIndex() == 1 && game.getSplit()) {
-			advanceHand();
-			output.displayMessage("You Bust\nSecond split hand:");
-			getHand().printHandDetails(output);
-		}
-		
 	}
 	
 	public void playerStay(Game game, SystemOutput output) {
 		
 		getHand().printHandDetails(output);
 		
-		/*if (game.getSplit() && getHandIndex() == 1) {
-			advanceHand();
-			output.displayMessage("Second split hand:");
-			getHand().printHandDetails(output);
-			return true;
-		}
-		
-		return false;*/
-		
 	}
 	
-	public boolean playerDouble(Game game, SystemOutput output) {
-		
-		String err = game.validateDouble(this);
-		
-		if(err.length() != 0) {
-			output.displayMessage(err);
-			return true;
-		}
-		
-		getHand().placeBet(getHand().getBet() * 2);
-	
-		getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-		output.displayMessage("New card is: " + game.getPlayingCards()[game.getCardIndex()].toString());
-		
-		//game.setCardIndex(game.getCardIndex()+1);
-		
-		getHand().printHandDetails(output);
-		
-		if (game.getSplit() && getHandIndex() == 1) {
-			advanceHand();
-			output.displayMessage("Second split hand:");
-			getHand().printHandDetails(output);
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
-	public void playerSplit(Game game, SystemOutput output) {
-		
-		String err = game.validateSplit(this);
-		
-		if(err.length() != 0) {
-			output.displayMessage(err);
-			return;
-		}
-				
-			int firstHandBet = getHand().getBet();
-			advanceHand();
-			getHand().placeBet(firstHandBet);
-			
-			advanceHand();
-			getHand().placeBet(firstHandBet);
-			
-			game.setSplit(true);
-			
-			getHand().setSplit();
-			prevHand();
-			getHand().setSplit();
-			prevHand();
-			
-			Card firstTemp = getHand().getCards().get(0);
-			advanceHand();
-			getHand().addCardToHand(firstTemp);
-			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-			//game.setCardIndex(game.getCardIndex()+1);
-			output.displayMessage("First split hand:");
-			getHand().printHandDetails(output);
-			
-			prevHand();
-			
-			Card secondTemp = getHand().getCards().get(1);
-			advanceHand();
-			advanceHand();
-			
-			getHand().addCardToHand(secondTemp);
-			getHand().addCardToHand(game.getPlayingCards()[game.getCardIndex()]);
-			//game.setCardIndex(game.getCardIndex()+1);
-			output.displayMessage("Second split hand:");
-			getHand().printHandDetails(output);
-			prevHand();
-		
-	}
-
 }

@@ -5,18 +5,15 @@ import java.util.ArrayList;
 public class Hand {
 
 	private ArrayList<Card> cards;
-	private boolean isSplit;
 	private int bet;
 	
 	public Hand() {
 		cards = new ArrayList<Card>();
-		isSplit = false;
 	}
 	
 	public void resetHand() {
 		bet = 0;
 		cards.clear();
-		isSplit = false;
 	}
 	
 	public int getBet() {
@@ -27,15 +24,12 @@ public class Hand {
 		bet = amount;
 	}
 	
-	public void setSplit() {
-		isSplit = true;
-	}
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
 	
 	public boolean isBlackJack() {
-		return calculateHandTotal() == 21 && cards.size() == 2 && !isSplit;
+		return calculateHandTotal() == 21 && cards.size() == 2;
 	}
 	
 	public boolean isBust() {

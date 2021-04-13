@@ -34,8 +34,6 @@ public class Controller {
 		
 	}
 	
-	// Driver method for blackjack should be in game class
-	// controller can just take input from user
 	public static void main(String[] args) {
 		
 		Game game = new Game();
@@ -73,7 +71,7 @@ public class Controller {
 		
 		do {
 			
-			output.displayMessage("Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split:");
+			output.displayMessage("Please Enter '0' to stand or '1' to hit:");
 			choice = input.makePlayerChoice();
 			
 			switch (choice) {
@@ -87,19 +85,8 @@ public class Controller {
 					p1.playerHit(game, output);
 					break;
 				}
-				/*case Constants.PLAYER_DOUBLE: {
-					
-					if (p1.playerDouble(game, output)) {
-						continue;
-					}
-					
-					break;
-				}
-				case Constants.PLAYER_SPLIT: {
-					p1.playerSplit(game, output);
-				}*/
 				default: {
-					output.displayMessage(choice + " is not a valid choice. Please Enter '0' to stand, '1' to hit, '2' to double, or '3' to split: ");	
+					output.displayMessage(choice + " is not a valid choice. Please Enter '0' to stand or '1' to hit: ");	
 				}
 			
 			}
@@ -114,16 +101,10 @@ public class Controller {
 		dealer.dealerPlay(game, output);
 	}
 		
-		if (game.getSplit()) {
-			game.handleSplitHand(p1, dealer, output);
-		}
-		else {
-			game.determineWinner(p1, dealer, output);
-		}
+		game.determineWinner(p1, dealer, output);
 		
 		p1.getHand().resetHand();
 		dealer.getHand().resetHand();
-		p1.playerReset();
 		promptForUserInput = true;
 		output.displayMessage("Player wins: " + p1.getWins() + "\nPlayer loses: " + p1.getLoses());
 		}

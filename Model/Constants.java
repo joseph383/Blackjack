@@ -10,8 +10,6 @@ public class Constants {
     
     public static final int PLAYER_STAY = 0;
     public static final int PLAYER_HIT = 1;
-    public static final int PLAYER_DOUBLE = 2;
-    public static final int PLAYER_SPLIT = 3;
     
     public static final int STARTING_BALANCE = 100;
 

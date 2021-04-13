@@ -10,12 +10,10 @@ public class Game {
 	private int cardIndex;
 	// Data structure to hold all playing cards
 	private Card [] playingCards;
-    private boolean split;
     
     public Game() {
     	cardIndex = 0;
         playingCards = new Card[Constants.DEFAULT_NUM_DECKS * Constants.NUMBER_OF_CARDS_IN_DECK];
-        split = false;
     }
 
     public int getCardIndex() {
@@ -28,14 +26,6 @@ public class Game {
     
     public void setPlayingCards(Card[] playingCards) {
         this.playingCards = playingCards;
-    }
-
-    public boolean getSplit() {
-        return split;
-    }
-
-    public void setSplit(boolean split) {
-        this.split = split;
     }
     
     public Card dealNextCard() {
@@ -91,41 +81,6 @@ public class Game {
 		
 		public boolean cardsNeedToBeReshuffled() {
 			return getCardIndex() > Constants.RESHUFFLE_CARD_INDEX;
-		}
-		
-		public String validateSplit(Player p1) {
-			
-			StringBuilder errorMsg = new StringBuilder("");
-			
-			if (split) {
-				errorMsg.append("You already split on this hand.\n");
-			}
-			if (!p1.validBet(p1.getHand().getBet() * 2)) {
-				errorMsg.append("You do not have enough money.\n");
-			}
-			if (p1.getHand().getCards().get(0).getValue() != p1.getHand().getCards().get(1).getValue()) {
-				errorMsg.append("You do not have a pair.\n");
-			}
-			if (p1.getHand().getCards().size() != 2) {
-				errorMsg.append("You can only split on initial two cards.");
-			}
-			
-			return errorMsg.toString();
-		}
-		
-		public String validateDouble(Player p1) {
-			
-			StringBuilder errorMsg = new StringBuilder("");
-			
-			if (!p1.validBet(p1.getHand().getBet() * 2)) {
-				errorMsg.append("Player does not have enough money to make this move.\n");
-			}
-			if (p1.getHand().getCards().size() > 2) {
-				errorMsg.append("You can only double on initial hand.");
-			}
-					
-			return errorMsg.toString();
-			
 		}
 		
 		public void determineWinner(Player p1, Dealer dealer, SystemOutput output) {
@@ -187,23 +142,6 @@ public class Game {
 			nextCard = dealNextCard();
 			dealer.getHand().addCardToHand(nextCard);
 
-		}
-		
-		public void handleSplitHand(Player p1, Dealer dealer, SystemOutput output) {
-			
-			p1.prevHand();
-			
-			output.displayMessage("First split hand:");
-			p1.getHand().printHandDetails(output);
-			determineWinner(p1, dealer, output);
-
-			p1.advanceHand();
-			
-			output.displayMessage("Second split hand:");
-			p1.getHand().printHandDetails(output);
-			determineWinner(p1, dealer, output);
-			setSplit(false);
-			
 		}
 
 }
