@@ -37,14 +37,18 @@ public class Dealer extends CardPlayer {
 		}
 	}
 	
+	private boolean canDealerHit() {
+		
+		return getHand().calculateHandTotal() < 17 || (getHand().calculateHandTotal() == 17 && 
+				getDealerRule() == DealerRule.Hits_on_Soft_17);
+	}
+	
 	public void dealerPlay(Game game, SystemOutput output) {
 		
 		output.displayMessage("Dealer hand:");
 		getHand().printHandDetails(output);
 		
-		// move this condition to method to make it easier to read
-		while (getHand().calculateHandTotal() < 17 || (getHand().calculateHandTotal() == 17 && 
-				getDealerRule() == DealerRule.Hits_on_Soft_17)) {
+		while (canDealerHit()) {
 			
 			Card nextCard = game.dealNextCard();
 			getHand().addCardToHand(nextCard);

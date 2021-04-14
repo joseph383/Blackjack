@@ -51,7 +51,6 @@ public class Controller {
 		//deal cards
 		while (p1.getMoneyTotal() > 0) {
 		
-			// try to test this
 			if (game.cardsNeedToBeReshuffled()) {
 				game.shuffleCards();
 				output.displayMessage("RESHUFFLING");
